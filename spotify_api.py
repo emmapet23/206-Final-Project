@@ -2,6 +2,7 @@ import unittest
 import sqlite3
 import json
 import os
+import csv
 
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
@@ -73,7 +74,7 @@ def get_artists(playlist):
     for dictionary in song_list:
         artist = dictionary["artists"][0]["name"]
         artist_list.append(artist)
-    print(artist_list)
+    # print(artist_list)
     return artist_list
 
 #GETTING SONG LENGTHS
@@ -92,28 +93,75 @@ def get_durations(playlist):
         len_s = dictionary["duration_ms"]
         len_min = round((len_s/(1000*60))%60, 2)
         length_list.append(len_min)
-    print(length_list)
+    # print(length_list)
     return length_list
 
-#MAKING MY TABLE
-def make_table(s_lst, l_lst, cur, conn):
-    cur.execute("CREATE TABLE IF NOT EXISTS Spotify (id PRIMARY KEY, song TEXT UNIQUE, duration FLOAT)")
+def open_database(db_name):
+    path = os.path.dirname(os.path.abspath(__file__))
+    conn = sqlite3.connect(path+'/'+db_name)
+    cur = conn.cursor()
+    return cur, conn
+
+#MAKING TABLE with durations
+def make_len_table(s_lst, l_lst, cur, conn):
+    cur.execute("CREATE TABLE IF NOT EXISTS Durations (id PRIMARY KEY, song TEXT UNIQUE, duration FLOAT)")
     count = 0
     for i in range(len(s_lst)):
         count+=1
         song = s_lst[i]
         duration = l_lst[i]
+        cur.execute("SELECT {count} (id,song,duration) FROM Spotify")
         cur.execute("INSERT OR IGNORE INTO Spotify (id,song,duration) VALUES (?,?,?)",(count,song,duration))
     conn.commit()
+
+# for tup in list_of_tups:
+#     cur.execute(INSERT values FOR list_of_tups[number:number+25])
+
+#Making table 25 at a time
+def make_list_tups(s_lst, a_lst, l_lst):
+    zipped = zip(s_lst, a_lst, l_lst)
+    list_of_tups = list(zipped)
+    return list_of_tups
+
+def make_len_table_25(tup_list, cur, conn):
+    cur.execute("CREATE TABLE IF NOT EXISTS Durations (id PRIMARY KEY, song TEXT UNIQUE, duration FLOAT)")
+    count = 0
+    num = cur.execute("SELECT count(id) FROM Durations").fetchone()[0]
+    print(num)
+
+    for tup in tup_list[num:num+25]:
+        count +=1
+        song = tup[0]
+        duration = tup[2]
+        
+        cur.execute("INSERT OR IGNORE INTO Durations (id,song,duration) VALUES (?,?,?)",(count,song,duration))
+        conn.commit()
 
 
 #Main
 def main():
     playlist_songs = get_playlist_tracks("7fwWgXdN6zozUaNLJKK07D")
+    print("finish function 1")
     song_names = get_song_names(playlist_songs)
+    print("finish function 2")
     artist_names = get_artists(playlist_songs)
+    print("finish function 3")
     lengths_songs = get_durations(playlist_songs)
-    # table = make_table(song_names)
-    return artist_names
+    print("finish function 4")
+    # write_file("music_tups.csv", song_names, artist_names, lengths_songs)
+
+    cur, conn = open_database("MusicData.db")
+    print("finish function 5")
+
+    tup_list = make_list_tups(song_names, artist_names, lengths_songs)
+    print("finish function 6")
+
+    # make_len_table(song_names, lengths_songs, cur, conn)
+    # make_artists_table(song_names, artist_names, cur, conn)
+
+    make_len_table_25(tup_list, cur, conn)
+    print("finish function 7")
+
+
 
 main()
