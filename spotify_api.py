@@ -115,8 +115,8 @@ def make_len_table_25(tup_list, cur, conn):
     print(num)
 #(song title, artist, song length)
     if num == None:
-        num = 1
-    for i in range(num, num+25):
+        num = -1
+    for i in range(num+1, num+26):
         id_num = i
         song = tup_list[i][0]
         duration = tup_list[i][2]
@@ -131,7 +131,7 @@ def make_artist_table_25(tup_list, cur, conn):
     print(num)
 #(song title, artist, song length)
     if num == None:
-        num = 0
+        num = -1
     for i in range(num+1, num+26):
         id_num = i
         artist = tup_list[i][1]
