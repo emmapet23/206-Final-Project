@@ -84,7 +84,7 @@ def get_durations(playlist):
     for song in playlist:
         sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET))
         song_id = song["track"]["id"]
-        urn = f'spotify:track:{song_id}'
+        urn = f'spotify:track:{song_id}' 
         track = sp.track(urn)
         song_list.append(track)
 
@@ -100,7 +100,7 @@ def get_durations(playlist):
 def open_database(db_name):
     path = os.path.dirname(os.path.abspath(__file__))
     conn = sqlite3.connect(path+'/'+db_name)
-    cur = conn.cursor()
+    cur = conn.cursor() 
     return cur, conn
 
 def make_list_tups(s_lst, a_lst, l_lst):
