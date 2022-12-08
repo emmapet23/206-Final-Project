@@ -67,16 +67,22 @@ def make_tuple(song_titles, rank_ids):
     return tup_list
 
 
-# opening database
+# # opening database
 # def open_database(db_name):
 #     path = os.path.dirname(os.path.abspath(__file__))
 #     conn = sqlite3.connect(path+'/'+db_name)
 #     cur = conn.cursor()
 #     return cur, conn
 
-#making the table
-# def make_table(tuples, cur, conn):
-#     cur.execute('CREATE TABLE IF NOT EXISTS Billboard_Data (song_id PRIMARY KEY, song_title TEXT, song_rank INT)')
+# # making the table
+# def make_billboard_table(cur, conn):
+#     cur.execute("DROP TABLE IF EXISTS Billboard_Data")
+#     cur.execute("CREATE TABLE \"Billboard_Data\"(\"song_id\" INTEGER PRIMARY KEY, \"song_title\" TEXT, \"song_rank\" NUMBER)")
+
+# def add_fluffle(cur, conn):
+#     cur.execute("INSERT INTO Billboard_Data (song_id, song_title, song_rank)VALUES (?,?,?)") #use question mark
+#     conn.commit()
+    
 
 #main
 if __name__ == '__main__':
