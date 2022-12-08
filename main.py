@@ -4,13 +4,14 @@ import json
 import os
 import csv
 
-import last_fm_api
 import spotify_api
-#import emily's
+import last_fm_api
+import billboard_url
 
 
 def main():
     spotify_api.main()
     last_fm_api.main()
+    billboard_url.main()
 
-main()
+main() 
