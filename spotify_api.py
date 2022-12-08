@@ -161,12 +161,9 @@ def main():
     # print(tup_list)
     # print(len(tup_list))
 
-    # make_len_table(song_names, lengths_songs, cur, conn)
-    # make_artists_table(song_names, artist_names, cur, conn)
-
-    # make_len_table_25(tup_list, cur, conn)
-    # print("finish function 7")
+    make_len_table_25(tup_list, cur, conn)
+    print("finish function 7")
     make_artist_table_25(tup_list, cur, conn)
     print("finish function 8")
 
-main()
+# main()
