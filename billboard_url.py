@@ -78,14 +78,10 @@ def make_tuple(song_titles, rank_ids):
 # def make_billboard_table(cur, conn):
 #     cur.execute("DROP TABLE IF EXISTS Billboard_Data")
 #     cur.execute("CREATE TABLE \"Billboard_Data\"(\"song_id\" INTEGER PRIMARY KEY, \"song_title\" TEXT, \"song_rank\" NUMBER)")
-
-# def add_fluffle(cur, conn):
-#     cur.execute("INSERT INTO Billboard_Data (song_id, song_title, song_rank)VALUES (?,?,?)") #use question mark
-#     conn.commit()
     
 
 #main
 if __name__ == '__main__':
     song_titles = get_songtitles("billboard_hot100.html")
     rank_ids = get_songranks("billboard_hot100.html")
-    tuples = make_tuple(song_titles, rank_ids)
+    tuples = make_tuple(song_titles, rank_ids) 
