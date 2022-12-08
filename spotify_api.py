@@ -140,6 +140,7 @@ def make_artist_table_25(tup_list, cur, conn):
     conn.commit()
 
 
+
 #Main
 def main():
     playlist_songs = get_playlist_tracks("7fwWgXdN6zozUaNLJKK07D")
