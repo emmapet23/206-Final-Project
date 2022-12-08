@@ -91,10 +91,10 @@ def make_billboard_table(tuples, cur, conn):
         
         cur.execute("INSERT OR IGNORE INTO Billboard_Data (song_id,song_title,song_rank) VALUES (?,?,?)",(id_num,song,rank))
     conn.commit()
-    
+
 
 #main
-if __name__ == '__main__':
+def main():
     song_titles = get_songtitles("billboard_hot100.html")
     rank_ids = get_songranks("billboard_hot100.html")
     tuples = make_tuple(song_titles, rank_ids) 
@@ -102,3 +102,4 @@ if __name__ == '__main__':
     cur, conn = open_database("MusicData.db")
     table = make_billboard_table(tuples, cur, conn)
 
+    #call main() 
