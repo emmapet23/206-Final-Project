@@ -21,12 +21,13 @@ def get_songtitles(html_file):
     song_titles = []
 
     #find anti-hero
-    antihero_tag = soup.find_all('h3', class_ = "c-title  a-no-trucate a-font-primary-bold-s u-letter-spacing-0021 u-font-size-23@tablet lrv-u-font-size-16 u-line-height-125 u-line-height-normal@mobile-max a-truncate-ellipsis u-max-width-245 u-max-width-230@tablet-only u-letter-spacing-0028@tablet") 
-    print(antihero_tag)
+    antihero_tag = soup.find('h3', class_ = "c-title") 
+    #a-no-trucate a-font-primary-bold-s u-letter-spacing-0021 u-font-size-23@tablet lrv-u-font-size-16 u-line-height-125 u-line-height-normal@mobile-max a-truncate-ellipsis u-max-width-245 u-max-width-230@tablet-only u-letter-spacing-0028@tablet") 
+    # print(antihero_tag)
     # for song in antihero_tag:
     #     # print(song)
-    #     title = song.text.strip()
-    #     song_titles.append(title)
+    title = antihero_tag.text.strip()
+    song_titles.append(title)
     # print(song_titles)
 
     #find the titles
@@ -67,37 +68,38 @@ def make_tuple(song_titles, rank_ids):
     return tup_list
 
 
-# # opening database
-# def open_database(db_name):
-#     path = os.path.dirname(os.path.abspath(__file__))
-#     conn = sqlite3.connect(path+'/'+db_name)
-#     cur = conn.cursor()
-#     return cur, conn
+# opening database
+def open_database(db_name):
+    path = os.path.dirname(os.path.abspath(__file__))
+    conn = sqlite3.connect(path+'/'+db_name)
+    cur = conn.cursor()
+    return cur, conn
 
-# # making the table
-# def make_billboard_table(tuples, cur, conn):
-#     cur.execute("CREATE TABLE IF NOT EXISTS Billboard_Data (song_id PRIMARY KEY, song_title TEXT UNIQUE, song_rank INTEGER)")
-#     id_num = 0
-#     num = cur.execute("SELECT max(id) FROM Billboard_Data").fetchone()[0]
-#     print(num)
-# #(id, song_title,rank)
-#     if num == None:
-#         num = -1
-#     for i in range(num+1, num+26):
-#         id_num = i
-#         song = tuples[i][0]
-#         rank = tuples[i][1]
+# making the table
+def make_billboard_table(tuples, cur, conn):
+    cur.execute("CREATE TABLE IF NOT EXISTS Billboard_Data (song_id PRIMARY KEY, song_title TEXT UNIQUE, song_rank INTEGER)")
+    id_num = 0
+    num = cur.execute("SELECT max(song_id) FROM Billboard_Data").fetchone()[0]
+    print(num)
+#(id, song_title,rank)
+    if num == None:
+        num = -1
+    for i in range(num+1, num+26):
+        id_num = i
+        song = tuples[i][0]
+        rank = tuples[i][1]
         
-#         cur.execute("INSERT OR IGNORE INTO Durations (id,song,duration) VALUES (?,?,?)",(id_num,song,rank))
-#     conn.commit()
-    
+        cur.execute("INSERT OR IGNORE INTO Billboard_Data (song_id,song_title,song_rank) VALUES (?,?,?)",(id_num,song,rank))
+    conn.commit()
+
 
 #main
-if __name__ == '__main__':
+def main():
     song_titles = get_songtitles("billboard_hot100.html")
     rank_ids = get_songranks("billboard_hot100.html")
     tuples = make_tuple(song_titles, rank_ids) 
 
-    # cur, conn = open_database("MusicData.db")
-    # table = make_billboard_table(tuples, cur, conn)
+    cur, conn = open_database("MusicData.db")
+    table = make_billboard_table(tuples, cur, conn)
 
+    #call main() 
