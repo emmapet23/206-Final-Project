@@ -96,28 +96,13 @@ def get_durations(playlist):
     # print(length_list)
     return length_list
 
+#Databasing
 def open_database(db_name):
     path = os.path.dirname(os.path.abspath(__file__))
     conn = sqlite3.connect(path+'/'+db_name)
     cur = conn.cursor()
     return cur, conn
 
-# #MAKING TABLE with durations
-# def make_len_table(s_lst, l_lst, cur, conn):
-#     cur.execute("CREATE TABLE IF NOT EXISTS Durations (id PRIMARY KEY, song TEXT UNIQUE, duration FLOAT)")
-#     count = 0
-#     for i in range(len(s_lst)):
-#         count+=1
-#         song = s_lst[i]
-#         duration = l_lst[i]
-#         cur.execute("SELECT {count} (id,song,duration) FROM Spotify")
-#         cur.execute("INSERT OR IGNORE INTO Spotify (id,song,duration) VALUES (?,?,?)",(count,song,duration))
-#     conn.commit()
-
-# for tup in list_of_tups:
-#     cur.execute(INSERT values FOR list_of_tups[number:number+25])
-
-#Making table 25 at a time
 def make_list_tups(s_lst, a_lst, l_lst):
     zipped = zip(s_lst, a_lst, l_lst)
     list_of_tups = list(zipped)
@@ -126,15 +111,32 @@ def make_list_tups(s_lst, a_lst, l_lst):
 def make_len_table_25(tup_list, cur, conn):
     cur.execute("CREATE TABLE IF NOT EXISTS Durations (id PRIMARY KEY, song TEXT UNIQUE, duration FLOAT)")
     id_num = 0
-    num = cur.execute("SELECT count(id) FROM Durations").fetchone()[0]
+    num = cur.execute("SELECT max(id) FROM Durations").fetchone()[0]
     print(num)
-
-    for tup in tup_list[num:num+25]:
-        id_num +=1
-        song = tup[0]
-        duration = tup[2]
+#(song title, artist, song length)
+    if num == None:
+        num = 1
+    for i in range(num, num+25):
+        id_num = i
+        song = tup_list[i][0]
+        duration = tup_list[i][2]
         
         cur.execute("INSERT OR IGNORE INTO Durations (id,song,duration) VALUES (?,?,?)",(id_num,song,duration))
+    conn.commit()
+
+def make_artist_table_25(tup_list, cur, conn):
+    cur.execute("CREATE TABLE IF NOT EXISTS Artists (id PRIMARY KEY, artist TEXT)")
+    id_num = 0
+    num = cur.execute("SELECT max(id) FROM Artists").fetchone()[0]
+    print(num)
+#(song title, artist, song length)
+    if num == None:
+        num = 0
+    for i in range(num+1, num+26):
+        id_num = i
+        artist = tup_list[i][1]
+        
+        cur.execute("INSERT OR IGNORE INTO Artists (id,artist) VALUES (?,?)",(id_num,artist))
     conn.commit()
 
 
@@ -155,13 +157,15 @@ def main():
 
     tup_list = make_list_tups(song_names, artist_names, lengths_songs)
     print("finish function 6")
+    # print(tup_list)
+    # print(len(tup_list))
 
     # make_len_table(song_names, lengths_songs, cur, conn)
     # make_artists_table(song_names, artist_names, cur, conn)
 
-    make_len_table_25(tup_list, cur, conn)
-    print("finish function 7")
-
-
+    # make_len_table_25(tup_list, cur, conn)
+    # print("finish function 7")
+    make_artist_table_25(tup_list, cur, conn)
+    print("finish function 8")
 
 main()
