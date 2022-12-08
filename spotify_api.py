@@ -169,4 +169,4 @@ def main():
     make_artist_table_25(tup_list, cur, conn)
     print("finish function 8")
 
-main()
+main() 
