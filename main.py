@@ -24,10 +24,17 @@ def open_database(db_name):
 def spotify_lastfm_join(cur, conn):
     cur.execute("SELECT User_Data.user_top_track_name, Billboard_Data.song_title FROM User_Data \
         INNER JOIN Billboard_Data ON User_Data.user_top_track_name = Billboard_Data.song_title")
-    print(cur.fetchall())
+
+    same = cur.fetchall()
+    same_count = len(same)
+    percentage = (same_count/100)
+
+    # print(same)
+    # print(same_count)
+    print(percentage)
     conn.commit()
 
-    return cur.fetchall()
+    return percentage
 
     # shared_count = len(thing)
     # percentage = (shared_count/100)
