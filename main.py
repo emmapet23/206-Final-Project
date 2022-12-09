@@ -4,6 +4,8 @@ import json
 import os
 import csv
 
+import plotly.graph_objects as go
+
 import spotify_api
 import last_fm_api
 import billboard_url
@@ -27,23 +29,35 @@ def spotify_lastfm_join(cur, conn):
 
     same = cur.fetchall()
     same_count = len(same)
-    percentage = (same_count/100)
+    # percentage = (same_count/100)
 
     # print(same)
     # print(same_count)
-    print(percentage)
+    # print(percentage)
     conn.commit()
 
-    return percentage
+    # return percentage
+    return same_count
 
     # shared_count = len(thing)
     # percentage = (shared_count/100)
+
+def vis1(percent):
+    label_list = ["User's Recent Songs", "Billboard Hot 100 Songs"]
+    other_num = 100 - percent
+    value_list = [percent, other_num]
+
+    fig = go.Figure(data=[go.Pie(labels=label_list, values=value_list)])
+    fig.show()
 
 
 #MAIN
 def main():
     database = loading_databases()
     cur, conn = open_database('MusicData.db')
-    spotify_lastfm_join(cur, conn)
+    user_num_songs = spotify_lastfm_join(cur, conn)
+    
+    visualization_one = vis1(user_num_songs)
+    return visualization_one
 
 main()
