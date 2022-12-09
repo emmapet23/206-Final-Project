@@ -19,7 +19,7 @@ def get_requests_url(root_url):
     r = requests.get(root_url, params = p)
     data = json.loads(r.text)
 
-    print(data)
+    # print(data)
 
     return data
 
@@ -64,8 +64,8 @@ def get_recent_tracks_names(file):
                 recent_track_artists.append(artist)
 
     # print(recent_track_names)
-    print(recent_track_artists)
-    print(recent_track_names)
+    # print(recent_track_artists)
+    # print(recent_track_names)
     return recent_track_names,recent_track_artists
 
 
