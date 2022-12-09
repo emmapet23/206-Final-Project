@@ -10,8 +10,8 @@ from pprint import pprint
 
 #Getting the information for all the tracks in a playlist
 
-SPOTIPY_CLIENT_ID = "37e1bb8ba38d41ca85ec84727b4e0a56"
-SPOTIPY_CLIENT_SECRET = "913ca8aa20634351846b11dd5523cffb"
+SPOTIPY_CLIENT_ID = "2b485069e31f40888763e1726479ba14"
+SPOTIPY_CLIENT_SECRET = "1c201ea4814147eea0a3c868bf07cdb0"
 SPOTIPY_REDIRECT_URI = "https://localhost:8888/callback"
 
 
@@ -109,26 +109,26 @@ def make_list_tups(s_lst, a_lst, l_lst):
     return list_of_tups
 
 def make_len_table_25(tup_list, cur, conn):
-    cur.execute("CREATE TABLE IF NOT EXISTS Durations (id PRIMARY KEY, song TEXT UNIQUE, duration FLOAT)")
+    cur.execute("CREATE TABLE IF NOT EXISTS Durations (id PRIMARY KEY, duration FLOAT)")
     id_num = 0
     num = cur.execute("SELECT max(id) FROM Durations").fetchone()[0]
-    print(num)
+    # print(num)
 #(song title, artist, song length)
     if num == None:
         num = -1
     for i in range(num+1, num+26):
         id_num = i
-        song = tup_list[i][0]
+        # song = tup_list[i][0]
         duration = tup_list[i][2]
         
-        cur.execute("INSERT OR IGNORE INTO Durations (id,song,duration) VALUES (?,?,?)",(id_num,song,duration))
+        cur.execute("INSERT OR IGNORE INTO Durations (id,duration) VALUES (?,?)",(id_num,duration))
     conn.commit()
 
 def make_artist_table_25(tup_list, cur, conn):
     cur.execute("CREATE TABLE IF NOT EXISTS Artists (id PRIMARY KEY, artist TEXT)")
     id_num = 0
     num = cur.execute("SELECT max(id) FROM Artists").fetchone()[0]
-    print(num)
+    # print(num)
 #(song title, artist, song length)
     if num == None:
         num = -1
