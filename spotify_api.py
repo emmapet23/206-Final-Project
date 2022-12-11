@@ -145,9 +145,9 @@ def main():
     dir_path = os.path.dirname(os.path.realpath(__file__))
     cache_filename = dir_path + '/' + "cache_songs.json"
 
-    playlist_songs = get_playlist_tracks("7fwWgXdN6zozUaNLJKK07D", cache_filename)
+    playlist_songs = get_playlist_tracks("7fwWgXdN6zozUaNLJKK07D")
     print("finish function 1")
-    song_names = get_song_names(playlist_songs)
+    song_names = get_song_names(playlist_songs, cache_filename)
     print("finish function 2")
     artist_names = get_artists(playlist_songs)
     print("finish function 3")
