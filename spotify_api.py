@@ -109,7 +109,7 @@ def make_list_tups(s_lst, a_lst, l_lst):
     list_of_tups = list(zipped)
     return list_of_tups
 def make_len_table_25(tup_list, cur, conn):
-    cur.execute("CREATE TABLE IF NOT EXISTS Durations (id PRIMARY KEY, song TEXT UNIQUE, duration FLOAT)")
+    cur.execute("CREATE TABLE IF NOT EXISTS Durations (id PRIMARY KEY, duration FLOAT)")
     id_num = 0
     num = cur.execute("SELECT max(id) FROM Durations").fetchone()[0]
     print(num)
@@ -118,7 +118,7 @@ def make_len_table_25(tup_list, cur, conn):
         num = -1
     for i in range(num+1, num+26):
         id_num = i
-        song = tup_list[i][0]
+        # song = tup_list[i][0]
         duration = tup_list[i][2]
         
         cur.execute("INSERT OR IGNORE INTO Durations (id,duration) VALUES (?,?)",(id_num,duration))
