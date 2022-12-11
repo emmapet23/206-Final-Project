@@ -23,33 +23,6 @@ def get_requests_url(root_url):
 
     return data
 
-
-# '''WRITE INTO JSON FILE TO CACHE'''
-# def write_json_file(dict):
-
-#     json_object = json.dumps(dict, indent = 2)
-
-#     with open('user_most_played_tracks.json', 'w') as f:
-#         f.write(json_object)
-
-
-
-# '''READING JSON FILE'''
-# def read_file(json_file):
-
-#     f = open(json_file, 'r')
-
-#     file = f.read()
-
-#     f.close()
-
-#     contents = json.loads(file)
-
-#     print(file)
-#     return file
-
-
-
 '''GET RECENT TRACK NAMES AND ARTIST'''
 def get_recent_tracks_names(file):
     recent_track_names = []
@@ -75,7 +48,7 @@ def make_tuple(recent_tracks_names, recent_track_artists):
     zipped_tup = zip(recent_tracks_names, recent_track_artists)
     list_of_tuples = list(zipped_tup)
 
-    print(list_of_tuples) 
+    # print(list_of_tuples) 
     return list_of_tuples
 
 
@@ -92,7 +65,7 @@ def make_table(tuples, cur, conn):
     cur.execute('CREATE TABLE IF NOT EXISTS User_Data (user_top_track_id PRIMARY KEY, user_top_track_name TEXT, user_top_track_artist TEXT)')
     id = 0
     num = cur.execute('SELECT max(user_top_track_id) FROM User_Data').fetchone()[0]
-    print(num)
+    # print(num)
     if num == None: 
         num = -1
     for i in range(num+1, num+26):
