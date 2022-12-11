@@ -116,7 +116,7 @@ def short_bar_graph(combined_lst):
 
 def write_data(filename, percent, long_songs, short_songs):
     file = open(filename, "w")
-    file.write(str(percent/100) + "percent of our user's 100 most recently listened to songs are on the Billboard Hot 100." + "\n")
+    file.write(str(percent) + " percent of our user's 100 most recently listened to songs are on the Billboard Hot 100." + "\n")
     file.write("The longest songs, in minutes, on the Billboard Hot 100 are ")
     for song in long_songs[0][0:10]:
         file.write(song + ", ")
