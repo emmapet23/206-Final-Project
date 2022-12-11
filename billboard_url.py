@@ -47,12 +47,26 @@ def get_songranks(soup):
     # print(rank_ids)
     return rank_ids
 
+
+# get artist name
+def get_artistname(soup):
+    #empty lists
+    artist_names = []
+
+    #find artist name
+    artist_tag = soup.find_all('span',class_ = "u-letter-spacing-0021")
+    for artist in artist_tag:
+        artist = artist.text.strip()
+        artist_names.append(artist)
+    # print(artist_names)
+    return artist_names
+
 #making tuples
-def make_tuple(song_titles, rank_ids):
-    zipped_tup = zip(song_titles, rank_ids)
+def make_tuple(song_titles, rank_ids, artist_names):
+    zipped_tup = zip(song_titles, rank_ids, artist_names)
     # print(zipped_tup)
     tup_list = list(zipped_tup)
-    print(tup_list)
+    # print(tup_list)
     return tup_list
 
 
@@ -76,8 +90,10 @@ def make_billboard_table(tuples, cur, conn):
         id_num = i
         song = tuples[i][0]
         rank = tuples[i][1]
+        cur.execute("SELECT artist_id FROM Artist WHERE Artist.artist = (?)", (tuples[i][2]))
+        artist_id = cur.fetchone()[0]
         
-        cur.execute("INSERT OR IGNORE INTO Billboard_Data (song_id,song_title,song_rank) VALUES (?,?,?)",(id_num,song,rank))
+        cur.execute("INSERT OR IGNORE INTO Billboard_Data (song_id,song_title,song_rank, artist_id) VALUES (?,?,?,?)",(id_num,song,rank,artist_id))
     conn.commit()
 
 
@@ -90,9 +106,12 @@ def main():
 
     song_titles = get_songtitles(soup)
     rank_ids = get_songranks(soup)
-    tuples = make_tuple(song_titles, rank_ids) 
+    artist_names = get_artistname(soup)
+    tuples = make_tuple(song_titles, rank_ids, artist_names) 
 
     cur, conn = open_database("MusicData.db")
     table = make_billboard_table(tuples, cur, conn)
+
+# main() 
 
     # call main() 
