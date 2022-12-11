@@ -58,14 +58,21 @@ def vis2_get_longest_songs(database_name, cur, conn):
     sorted_lengths = sorted(cur.execute("SELECT Billboard_Data.song_title, Durations.duration FROM Billboard_Data \
         JOIN Durations ON Billboard_Data.song_id = Durations.id").fetchall(), key = lambda t: t[1], reverse = True)
 
-    long_list = []
-    # count = 0
-    while len(long_list)<=10:
-        for time in sorted_lengths:
-            print(time)
-        
+    x_list = []
+    y_list = []
+    while len(x_list)<=10:
+        for tup in sorted_lengths:
+            song_x = tup[0]
+            time_y = tup[1]
+            x_list.append(song_x)
+            y_list.append(song_x)
+    combined_lst = []
+    combined_lst.append(x_list)
+    combined_lst.append(y_list)
 
-
+    print(combined_lst)
+    return combined_lst
+    
 
 
 
