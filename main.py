@@ -60,7 +60,8 @@ def vis2_get_longest_songs(database_name, cur, conn):
     while len(long_list)<=10:
         for time in sorted_lengths:
             print(time)
-        
+
+
 
 
 
