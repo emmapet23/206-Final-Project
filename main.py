@@ -30,18 +30,10 @@ def spotify_lastfm_join(cur, conn):
 
     same = cur.fetchall()
     same_count = len(same)
-    # percentage = (same_count/100)
 
-    # print(same)
-    # print(same_count)
-    # print(percentage)
     conn.commit()
 
-    # return percentage
     return same_count
-
-    # shared_count = len(thing)
-    # percentage = (shared_count/100)
 
 def pie_chart(percent):
     label_list = ["User's Recent Songs", "Billboard Hot 100 Songs"]
@@ -50,6 +42,8 @@ def pie_chart(percent):
 
     fig = go.Figure(data=[go.Pie(labels=label_list, values=value_list)])
     fig.show()
+
+    return percent
 
 def vis2_get_longest_songs(database_name, cur, conn):
     conn = sqlite3.connect(database_name)
@@ -120,6 +114,19 @@ def short_bar_graph(combined_lst):
     )
     fig.show()
 
+def write_data(filename, percent, long_songs, short_songs):
+    file = open(filename, "w")
+    file.write(str(percent/100) + "percent of our user's 100 most recently listened to songs are on the Billboard Hot 100." + "\n")
+    file.write("The longest songs, in minutes, on the Billboard Hot 100 are ")
+    for song in long_songs[0][0:10]:
+        file.write(song + ", ")
+    file.write("\n")
+    file.write("The shortest songs, in minutes, on the Billboard Hot 100 are ")
+    for song in short_songs[0][1:10]:
+        file.write(song + ", ")
+    file.write("\n")
+    file.close()
+    
 
 
 #MAIN
@@ -132,5 +139,8 @@ def main():
     visualization_two = long_bar_graph(top_ten_longest)
     top_ten_shortest = vis3_get_shortest_songs("MusicData.db", cur, conn)
     visualization_three = short_bar_graph(top_ten_shortest)
+
+    write_data("calculations.txt", user_num_songs, top_ten_longest, top_ten_shortest)
+
 
 main()
