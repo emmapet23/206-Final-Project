@@ -121,7 +121,7 @@ def make_len_table_25(tup_list, cur, conn):
         song = tup_list[i][0]
         duration = tup_list[i][2]
         
-        cur.execute("INSERT OR IGNORE INTO Durations (id,song,duration) VALUES (?,?,?)",(id_num,song,duration))
+        cur.execute("INSERT OR IGNORE INTO Durations (id,duration) VALUES (?,?)",(id_num,duration))
     conn.commit()
 def make_artist_table_25(tup_list, cur, conn):
     cur.execute("CREATE TABLE IF NOT EXISTS Artists (id PRIMARY KEY, artist TEXT)")
