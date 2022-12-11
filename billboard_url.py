@@ -79,7 +79,7 @@ def open_database(db_name):
 
 # making the table
 def make_billboard_table(tuples, cur, conn):
-    cur.execute("CREATE TABLE IF NOT EXISTS Billboard_Data (song_id PRIMARY KEY, song_title TEXT UNIQUE, song_rank INTEGER)")
+    cur.execute("CREATE TABLE IF NOT EXISTS Billboard_Data (song_id PRIMARY KEY, song_title TEXT UNIQUE, song_rank INTEGER, artist_id INTEGER)")
     id_num = 0
     num = cur.execute("SELECT max(song_id) FROM Billboard_Data").fetchone()[0]
     # print(num)
@@ -90,8 +90,9 @@ def make_billboard_table(tuples, cur, conn):
         id_num = i
         song = tuples[i][0]
         rank = tuples[i][1]
-        cur.execute("SELECT artist_id FROM Artist WHERE Artist.artist = (?)", (tuples[i][2]))
+        cur.execute("SELECT id FROM Artists WHERE Artists.artist = (?)", (tuples[i][2], ))
         artist_id = cur.fetchone()[0]
+        #^^^ SHOULD THIS BE artist_id = cur.execute("SELECT id FROM Artists WHERE Artists.artist = (?)", (tuples[i][2], )).fetchone()[0]
         
         cur.execute("INSERT OR IGNORE INTO Billboard_Data (song_id,song_title,song_rank, artist_id) VALUES (?,?,?,?)",(id_num,song,rank,artist_id))
     conn.commit()
