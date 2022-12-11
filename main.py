@@ -65,7 +65,7 @@ def vis2_get_longest_songs(database_name, cur, conn):
             song_x = tup[0]
             time_y = tup[1]
             x_list.append(song_x)
-            y_list.append(song_x)
+            y_list.append(time_y)
     combined_lst = []
     combined_lst.append(x_list)
     combined_lst.append(y_list)
@@ -74,6 +74,13 @@ def vis2_get_longest_songs(database_name, cur, conn):
     return combined_lst
     
 
+def bar_graph(combined_lst):
+    fig = go.Figure(
+        data = [go.Bar(x = combined_lst[0], y = combined_lst[1], marker_color = 'rgb(52,91,94)')],
+        layout = dict(title = dict(text = 'Top 10 Longest Songs in the Billboard Hot 100'))
+    )
+    fig.show()
+
 
 
 #MAIN
@@ -81,8 +88,8 @@ def main():
     database = loading_databases()
     cur, conn = open_database('MusicData.db')
     user_num_songs = spotify_lastfm_join(cur, conn)
-    
     visualization_one = pie_chart(user_num_songs)
-    return visualization_one
+    top_ten_longest = vis2_get_longest_songs('MusicData.db', cur, conn)    
+    visualization_two = bar_graph(top_ten_longest)
 
 main()
