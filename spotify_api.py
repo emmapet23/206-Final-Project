@@ -15,7 +15,7 @@ SPOTIPY_CLIENT_SECRET = "2d58e7944c0d421783046a26ba3c7a9a"
 SPOTIPY_REDIRECT_URI = "https://localhost:8888/callback"
 
 #GETTING PLAYLIST WORTH OF SONG IDS
-def get_playlist_tracks(id, cache_filename):
+def get_playlist_tracks(id):
     sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET))
     pl_id = f'spotify:playlist:{id}'
     offset = 0
@@ -33,13 +33,13 @@ def get_playlist_tracks(id, cache_filename):
         offset = offset + len(response['items'])
         # print(offset, "/", response['total'])
 
-        json_dict = json.dumps(response['items'])
-        file = open(cache_filename, "w")
-        file.write(json_dict)
-        file.close()
+        # json_dict = json.dumps(response['items'])
+        # file = open(cache_filename, "w")
+        # file.write(json_dict)
+        # file.close()
         return response['items']
 #GETTING SONG TITLES
-def get_song_names(playlist):
+def get_song_names(playlist, cache_filename):
     # print(playlist)
     song_list = []
     
@@ -50,11 +50,19 @@ def get_song_names(playlist):
         track = sp.track(urn)
         song_list.append(track)
     # pprint(song_list)[0][0]
+
+    json_dict = json.dumps(song_list)
+    file = open(cache_filename, "w")
+    file.write(json_dict)
+    file.close()
+
     title_list = []
     for dictionary in song_list:
         song_title = dictionary["name"]
         title_list.append(song_title)
     # print(title_list)
+
+
     return title_list
 #GETTING ARTISTS
 def get_artists(playlist):
@@ -66,6 +74,7 @@ def get_artists(playlist):
         urn = f'spotify:track:{song_id}'
         track = sp.track(urn)
         song_list.append(track)
+
     artist_list = []
     for dictionary in song_list:
         artist = dictionary["artists"][0]["name"]
