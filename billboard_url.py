@@ -90,8 +90,7 @@ def make_billboard_table(tuples, cur, conn):
         id_num = i
         song = tuples[i][0]
         rank = tuples[i][1]
-        cur.execute("SELECT id FROM Artists WHERE Artists.artist = (?)", (tuples[i][2], ))
-        artist_id = cur.fetchone()[0]
+        artist_id = cur.execute("SELECT id FROM Artists WHERE Artists.artist = (?)", (tuples[i][2], )).fetchone()[0]
         #^^^ SHOULD THIS BE artist_id = cur.execute("SELECT id FROM Artists WHERE Artists.artist = (?)", (tuples[i][2], )).fetchone()[0]
         
         cur.execute("INSERT OR IGNORE INTO Billboard_Data (song_id,song_title,song_rank, artist_id) VALUES (?,?,?,?)",(id_num,song,rank,artist_id))
