@@ -60,13 +60,25 @@ def vis2_get_longest_songs(database_name, cur, conn):
 
     x_list = []
     y_list = []
-    while len(x_list)<=10:
+    combined_lst = []
+
+    # for i in range(len(sorted_lengths))[0,10]:
+    #     song_x = i[0]
+    #     time_y = i[1]
+    #     x_list.append(song_x)
+    #     y_list.append(time_y)
+    # combined_lst.append(x_list)
+    # combined_lst.append(y_list)
+
+
+    if len(x_list)<=10:
         for tup in sorted_lengths:
             song_x = tup[0]
             time_y = tup[1]
             x_list.append(song_x)
             y_list.append(time_y)
-    combined_lst = []
+    else:
+        pass
     combined_lst.append(x_list)
     combined_lst.append(y_list)
 
