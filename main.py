@@ -53,13 +53,23 @@ def pie_chart(percent):
 def vis2_get_longest_songs(database_name, cur, conn):
     conn = sqlite3.connect(database_name)
     cur = conn.cursor()
-    sorted_lengths = sorted(cur.execute("SELECT duration FROM Durations").fetchall(), reverse=True)
+    # sorted_lengths = sorted(cur.execute("SELECT duration FROM Durations").fetchall(), reverse=True)
+
+    sorted_lengths = sorted(cur.execute("SELECT Billboard_Data.song_title, Durations.duration FROM Billboard_Data \
+        JOIN Durations ON Billboard_Data.song_id = Durations.id").fetchall(), key = lambda t: t[1], reverse = True)
 
     long_list = []
-    count = 0
+    # count = 0
     while len(long_list)<=10:
         for time in sorted_lengths:
-            print(time)
+            long_list.append(time)
+            # print(time)
+
+    return long_list
+
+
+def bar_graph(time_list):
+    fig = go.Figure(data=[go.Bar(x=[]),y=[])]
         
 
 
