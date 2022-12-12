@@ -83,19 +83,6 @@ def long_bar_graph(combined_lst):
     )
     fig.show()
 
-    # x_values = combined_lst[0][0:10]
-    # y_values = combined_lst[1][0:10]
-    # plt.bar(x_values, y_values, width=0.8, bottom=None, align='center', color=(0.2, 0.4, 0.6, 0.6))
-    # plt.xticks(rotation=45)
-
-    # plt.xlabel("Song Title")
-    # plt.ylabel("Length In Minutes")
-    # plt.title("Top 10 Longest Songs on the Billboard Hot 100")
-
-    # plt.figure(1, figsize=(12,10))
-
-    # plt.show()
-
 def vis3_get_shortest_songs(database_name, cur, conn):
     conn = sqlite3.connect(database_name)
     cur = conn.cursor()
@@ -127,19 +114,6 @@ def short_bar_graph(combined_lst):
         layout = dict(title = dict(text = 'Top 10 Shortest Songs in the Billboard Hot 100 in Minutes'))
     )
     fig.show()
-
-    # x_values = combined_lst[0][0:10]
-    # y_values = combined_lst[1][0:10]
-    # plt.bar(x_values, y_values, width=0.8, bottom=None, align='center', color=(0.8, 0.2, 0.4, 0.6))
-    # plt.xticks(rotation=45)
-
-    # plt.xlabel("Song Title")
-    # plt.ylabel("Length In Minutes")
-    # plt.title("Top 10 Shortest Songs on the Billboard Hot 100")
-
-    # plt.figure(1, figsize=(12,10))
-
-    # plt.show()
 
 def write_data(filename, percent, long_songs, short_songs):
     file = open(filename, "w")
