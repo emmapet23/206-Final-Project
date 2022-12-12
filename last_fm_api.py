@@ -62,9 +62,9 @@ def open_database(db_name):
 
 'MAKING TABLE' 
 def make_table(tuples, cur, conn):
-    cur.execute('CREATE TABLE IF NOT EXISTS User_Data (user_top_track_id PRIMARY KEY, user_top_track_name TEXT, user_top_track_artist TEXT)')
+    cur.execute('CREATE TABLE IF NOT EXISTS User_Data (user_recent_track_id PRIMARY KEY, user_recent_track_name TEXT, user_recent_track_artist TEXT)')
     id = 0
-    num = cur.execute('SELECT max(user_top_track_id) FROM User_Data').fetchone()[0]
+    num = cur.execute('SELECT max(user_recent_track_id) FROM User_Data').fetchone()[0]
     # print(num)
     if num == None: 
         num = -1
@@ -73,7 +73,7 @@ def make_table(tuples, cur, conn):
         song = tuples[i][0]
         artist = tuples[i][1]
 
-        cur.execute('INSERT OR IGNORE INTO User_Data (user_top_track_id, user_top_track_name, user_top_track_artist) VALUES (?,?,?)', (id, song, artist))
+        cur.execute('INSERT OR IGNORE INTO User_Data (user_recent_track_id, user_recent_track_name, user_recent_track_artist) VALUES (?,?,?)', (id, song, artist))
     conn.commit()
 
 
