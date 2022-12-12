@@ -145,12 +145,16 @@ def write_data(filename, percent, long_songs, short_songs):
     file = open(filename, "w")
     file.write(str(percent) + " percent of our user's 100 most recently listened to songs are on the Billboard Hot 100." + "\n")
     file.write("The longest songs, in minutes, on the Billboard Hot 100 are ")
-    for song in long_songs[0][0:10]:
+    for song in long_songs[0][0:9]:
         file.write(song + ", ")
+    for song in long_songs[0][9]:
+        file.write(song)
     file.write("\n")
     file.write("The shortest songs, in minutes, on the Billboard Hot 100 are ")
-    for song in short_songs[0][1:10]:
+    for song in short_songs[0][0:9]:
         file.write(song + ", ")
+    for song in short_songs[0][9]:
+        file.write(song)
     file.write("\n")
     file.close()
     
