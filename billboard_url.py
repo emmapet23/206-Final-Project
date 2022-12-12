@@ -8,11 +8,6 @@ import requests
 
 # GOAL: rank, song name
 
-# #get link
-# def getLink(soup):
-#     link = 'https://web.archive.org/web/20221205112648/https://www.billboard.com/charts/hot-100/'.get('href')
-#     return link
-
 #getting song titles
 def get_songtitles(soup):
     #empty lists
@@ -66,9 +61,8 @@ def make_tuple(song_titles, rank_ids, artist_names):
     zipped_tup = zip(song_titles, rank_ids, artist_names)
     # print(zipped_tup)
     tup_list = list(zipped_tup)
-    # print(tup_list)
+    print(tup_list)
     return tup_list
-
 
 # opening database
 def open_database(db_name):
@@ -83,23 +77,13 @@ def make_billboard_table(tuples, cur, conn):
     id_num = 0
     num = cur.execute("SELECT max(song_id) FROM Billboard_Data").fetchone()[0]
     # print(num)
-#(id, song_title,rank)
+    #(id, song_title,rank) 
     if num == None:
         num = -1
     for i in range(num+1, num+26):
         id_num = i
         song = tuples[i][0]
         rank = tuples[i][1]
-        # artist_name = tuples[i][2]
-        # artist_id = cur.execute('SELECT id FROM Artists WHERE artist = (?)', (artist_name,)).fetchone()[0]
-        # artist_id = cur.fetchone()[0]
-        # print(type(artist_id))
-
-        # cur.execute('SELECT id FROM Types WHERE type = ?',(types[0],)) 
-        # type_id = int(cur.fetchone()[0])
-
-
-        #^^^ SHOULD THIS BE artist_id = cur.execute("SELECT id FROM Artists WHERE Artists.artist = (?)", (tuples[i][2], )).fetchone()[0]
         
         cur.execute("INSERT OR IGNORE INTO Billboard_Data (song_id, song_title, song_rank) VALUES (?,?,?)",(id_num, song, rank))
     conn.commit()
