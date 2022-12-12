@@ -26,8 +26,8 @@ def open_database(db_name):
 
 
 def spotify_lastfm_join(cur, conn):
-    cur.execute("SELECT User_Data.user_top_track_name, Billboard_Data.song_title FROM User_Data \
-        INNER JOIN Billboard_Data ON User_Data.user_top_track_name = Billboard_Data.song_title")
+    cur.execute("SELECT User_Data.user_recent_track_name, Billboard_Data.song_title FROM User_Data \
+        INNER JOIN Billboard_Data ON User_Data.user_recent_track_name = Billboard_Data.song_title")
 
     same = cur.fetchall()
     same_count = len(same)
@@ -118,17 +118,20 @@ def short_bar_graph(combined_lst):
 def write_data(filename, percent, long_songs, short_songs):
     file = open(filename, "w")
     file.write(str(percent) + " percent of our user's 100 most recently listened to songs are on the Billboard Hot 100." + "\n")
+    file.write("\n")
     file.write("The longest songs, in minutes, on the Billboard Hot 100 are ")
     for song in long_songs[0][0:9]:
         file.write(song + ", ")
     for song in long_songs[0][9]:
         file.write(song)
     file.write("\n")
+    file.write("\n")
     file.write("The shortest songs, in minutes, on the Billboard Hot 100 are ")
     for song in short_songs[0][0:9]:
         file.write(song + ", ")
     for song in short_songs[0][9]:
         file.write(song)
+    file.write("\n")
     file.write("\n")
     file.close()
     
