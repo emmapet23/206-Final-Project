@@ -33,10 +33,6 @@ def get_playlist_tracks(id):
         offset = offset + len(response['items'])
         # print(offset, "/", response['total'])
 
-        # json_dict = json.dumps(response['items'])
-        # file = open(cache_filename, "w")
-        # file.write(json_dict)
-        # file.close()
         return response['items']
 #GETTING SONG TITLES
 def get_song_names(playlist, cache_filename):
@@ -153,7 +149,7 @@ def main():
     print("finish function 3")
     lengths_songs = get_durations(playlist_songs)
     print("finish function 4")
-    # write_file("music_tups.csv", song_names, artist_names, lengths_songs)
+
     cur, conn = open_database("MusicData.db")
     print("finish function 5")
     tup_list = make_list_tups(song_names, artist_names, lengths_songs)
