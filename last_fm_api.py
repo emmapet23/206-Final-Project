@@ -82,10 +82,7 @@ def main():
 
     data = 'user_most_played_tracks.json'
     data_from_url = get_requests_url(root_url)
-    # json_file = write_json_file(data_from_url)
-    # file = read_file(json_file)
     recent_tracks, recent_artists = get_recent_tracks_names(data_from_url)
-    # recent_artists = get_recent_tracks_artist(data_from_url)
     tuples = make_tuple(recent_tracks, recent_artists)
 
     cur, conn = open_database("MusicData.db")
